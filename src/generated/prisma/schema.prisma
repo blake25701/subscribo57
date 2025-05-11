@@ -15,26 +15,26 @@ datasource db {
 }
 
 model User {
-  id              String         @id @default(cuid())
-  email           String         @unique
-  name            String?
-  image           String?
-  isPro           Boolean        @default(false)
-  stripeCustomerId String?       @unique
-  subscriptions   Subscription[]
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  id               String         @id @default(cuid())
+  email            String         @unique
+  name             String?
+  image            String?
+  isPro            Boolean        @default(false)
+  stripeCustomerId String?        @unique
+  subscriptions    Subscription[]
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 }
 
 model Subscription {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   name            String
   price           Float
   billingCycle    String
   nextBillingDate DateTime
   trialEndDate    DateTime?
   userId          String
-  user            User     @relation(fields: [userId], references: [id])
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  user            User      @relation(fields: [userId], references: [id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }

@@ -13,6 +13,7 @@ const {
   empty,
   join,
   raw,
+  skip,
   Decimal,
   Debug,
   objectEnumValues,
@@ -21,7 +22,7 @@ const {
   warnOnce,
   defineDmmfProperty,
   Public,
-  detectRuntime,
+  getRuntime
 } = require('./runtime/library.js')
 
 
@@ -31,12 +32,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 5.10.2
- * Query Engine version: 5a9203d0590c951969e85a7d07215503f4672eb9
+ * Prisma Client JS version: 5.22.0
+ * Query Engine version: 605197351a3c8bdd595af2d2a9bc3025bca48ea2
  */
 Prisma.prismaVersion = {
-  client: "5.10.2",
-  engine: "5a9203d0590c951969e85a7d07215503f4672eb9"
+  client: "5.22.0",
+  engine: "605197351a3c8bdd595af2d2a9bc3025bca48ea2"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -74,6 +75,8 @@ Prisma.NullTypes = {
   JsonNull: objectEnumValues.classes.JsonNull,
   AnyNull: objectEnumValues.classes.AnyNull
 }
+
+
 
 
   const path = require('path')
@@ -148,6 +151,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
+    "sourceFilePath": "C:\\Users\\blake\\Downloads\\Subscribo\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -155,12 +159,13 @@ const config = {
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
-  "clientVersion": "5.10.2",
-  "engineVersion": "5a9203d0590c951969e85a7d07215503f4672eb9",
+  "clientVersion": "5.22.0",
+  "engineVersion": "605197351a3c8bdd595af2d2a9bc3025bca48ea2",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "sqlite",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -169,8 +174,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = \"file:./dev.db\"\n}\n\nmodel User {\n  id              String         @id @default(cuid())\n  email           String         @unique\n  name            String?\n  image           String?\n  isPro           Boolean        @default(false)\n  stripeCustomerId String?       @unique\n  subscriptions   Subscription[]\n  createdAt       DateTime       @default(now())\n  updatedAt       DateTime       @updatedAt\n}\n\nmodel Subscription {\n  id              String   @id @default(cuid())\n  name            String\n  price           Float\n  billingCycle    String\n  nextBillingDate DateTime\n  trialEndDate    DateTime?\n  userId          String\n  user            User     @relation(fields: [userId], references: [id])\n  createdAt       DateTime @default(now())\n  updatedAt       DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "add542fd37c9a9a67040dd8c0dfa56c29a381f1b912297f1a10761ad6082ecee",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = \"file:./dev.db\"\n}\n\nmodel User {\n  id               String         @id @default(cuid())\n  email            String         @unique\n  name             String?\n  image            String?\n  isPro            Boolean        @default(false)\n  stripeCustomerId String?        @unique\n  subscriptions    Subscription[]\n  createdAt        DateTime       @default(now())\n  updatedAt        DateTime       @updatedAt\n}\n\nmodel Subscription {\n  id              String    @id @default(cuid())\n  name            String\n  price           Float\n  billingCycle    String\n  nextBillingDate DateTime\n  trialEndDate    DateTime?\n  userId          String\n  user            User      @relation(fields: [userId], references: [id])\n  createdAt       DateTime  @default(now())\n  updatedAt       DateTime  @updatedAt\n}\n",
+  "inlineSchemaHash": "8353ce3d7cc34cdec10b2a63bdea68a1c6f3830a2571d2de754db510d8eb8870",
   "copyEngine": true
 }
 

@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+// Force clean build - v1
 const nextConfig = {
   typescript: {
     ignoreBuildErrors: true

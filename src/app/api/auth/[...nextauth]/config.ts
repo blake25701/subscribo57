@@ -9,28 +9,28 @@ export const authConfig: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
+          prompt: "select_account",
           access_type: "offline",
-          prompt: "consent",
-          response_type: "code",
-          scope: "openid email profile"
+          response_type: "code"
         }
       }
     }),
   ],
-  pages: {
-    signIn: '/auth/signin',
-    error: '/auth/error',
-  },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
+  debug: true,
   callbacks: {
     async signIn({ user, account, profile }) {
-      if (!user.email) return false;
+      console.log('SignIn callback:', { user, account, profile });
+      if (!user.email) {
+        console.error('No email provided');
+        return false;
+      }
       try {
-        await prisma.user.upsert({
+        const dbUser = await prisma.user.upsert({
           where: { email: user.email },
           create: {
             email: user.email,
@@ -42,22 +42,26 @@ export const authConfig: NextAuthOptions = {
             image: user.image,
           },
         });
+        console.log('User created/updated:', dbUser);
         return true;
       } catch (error) {
-        console.error('Error during sign in:', error);
+        console.error('Database error during sign in:', error);
         return false;
       }
     },
     async redirect({ url, baseUrl }) {
+      console.log('Redirect callback:', { url, baseUrl });
       return url.startsWith(baseUrl) ? url : baseUrl;
     },
     async session({ session, token }) {
+      console.log('Session callback:', { session, token });
       if (token.accessToken) {
         session.accessToken = token.accessToken as string;
       }
       return session;
     },
     async jwt({ token, account }) {
+      console.log('JWT callback:', { token, account });
       if (account) {
         token.accessToken = account.access_token;
       }

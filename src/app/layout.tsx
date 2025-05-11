@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/components/AuthProvider";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authConfig } from "./api/auth/[...nextauth]/config";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +17,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authConfig);
 
   return (
     <html lang="en">

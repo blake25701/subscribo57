@@ -8,6 +8,7 @@ export default function LoginButton() {
   const [error, setError] = useState<string | null>(null);
 
   const handleSignIn = async () => {
+    console.log('Button clicked!');
     try {
       setIsLoading(true);
       setError(null);
@@ -37,7 +38,10 @@ export default function LoginButton() {
   return (
     <div className="flex flex-col items-center gap-2">
       <button
-        onClick={handleSignIn}
+        onClick={() => {
+          console.log('Button clicked - inline!');
+          handleSignIn();
+        }}
         disabled={isLoading}
         className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-lg disabled:opacity-50"
       >

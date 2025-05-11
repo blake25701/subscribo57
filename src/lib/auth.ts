@@ -14,6 +14,11 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      authorization: {
+        params: {
+          prompt: "select_account"
+        }
+      }
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
@@ -23,11 +28,15 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      if (!user.email) return false;
+      console.log('Sign in callback:', { user, account, profile });
+      if (!user.email) {
+        console.error('No email provided');
+        return false;
+      }
 
       try {
         // Create or update user in database
-        await prisma.user.upsert({
+        const dbUser = await prisma.user.upsert({
           where: { email: user.email },
           create: {
             email: user.email,
@@ -39,6 +48,7 @@ export const authOptions: NextAuthOptions = {
             image: user.image,
           },
         });
+        console.log('User upserted:', dbUser);
         return true;
       } catch (error) {
         console.error('Error during sign in:', error);
@@ -46,12 +56,14 @@ export const authOptions: NextAuthOptions = {
       }
     },
     async session({ session, token }) {
+      console.log('Session callback:', { session, token });
       if (token.accessToken) {
         session.accessToken = token.accessToken as string;
       }
       return session;
     },
     async jwt({ token, account, profile }) {
+      console.log('JWT callback:', { token, account, profile });
       if (account) {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
@@ -60,5 +72,5 @@ export const authOptions: NextAuthOptions = {
       return token;
     }
   },
-  debug: process.env.NODE_ENV === 'development'
+  debug: true // Enable debug logs
 }; 

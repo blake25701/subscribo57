@@ -11,26 +11,26 @@
     "check-env": "ts-node scripts/check-env.ts"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.17",
-    "@prisma/client": "^5.10.2",
+    "@headlessui/react": "^1.7.19",
+    "@prisma/client": "^6.7.0",
     "@stripe/stripe-js": "^2.4.0",
-    "date-fns": "^3.3.1",
-    "next": "14.1.0",
+    "date-fns": "^3.6.0",
+    "next": "14.2.28",
     "next-auth": "^4.24.11",
-    "prisma": "^5.10.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "stripe": "^14.17.0"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/node": "^20.17.46",
+    "@types/react": "^18.3.21",
+    "@types/react-dom": "^18.3.7",
     "autoprefixer": "^10.4.17",
-    "eslint": "^8.56.0",
-    "eslint-config-next": "14.1.0",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "14.2.28",
     "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
+    "prisma": "^6.7.0",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5"
   }
 }
